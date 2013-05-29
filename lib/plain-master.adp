@@ -1,41 +1,126 @@
-<master src="/www/blank-master">
+<master src="blank-master">
 <if @doc@ defined><property name="&doc">doc</property></if>
 <if @body@ defined><property name="&body">body</property></if>
 <if @head@ not nil><property name="head">@head;noquote@</property></if>
 <if @focus@ not nil><property name="focus">@focus;noquote@</property></if>
+<if @body_attributes@ not nil><property name="body_attributes">@body_attributes;noquote@</property></if>
 <property name="skip_link">@skip_link;noquote@</property>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand"<if @system_url@ not nil> href="@system_url@"</if>>@system_name@ <sup style="font-weight:normal;color:gray;font-size:small">BETA</sup></a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <comment>
+            <li <if @active@ eq "compose">class="active"</if>><a href="/composer/compose">#itec-composer.nav_compose#</a></li>
+            <li <if @active@ eq "manage">class="active"</if>><a href="/composer/manage">#itec-composer.nav_manage#</a></li>
+          </comment>
+
+
+                      <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">#itec-composer.nav_activities_stories# <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<comment>
+                          <li class="nav-header">Learning Activities</li>
+</comment>
+                          <li><a href="@activities_url@">#itec-composer.nav_activities#</a></li>
+<comment>
+                          <li><a href="#">Create a Learning Activity <i class="icon-pencil"></i></a></li>
+                          <li class="divider"></li>
+                          <li class="nav-header">Learning Stories</li>
+</comment>
+                          <li><a href="@learningstories_url@">#itec-composer.nav_learning_stories#</a></li>
+<comment>
+                          <li><a href="#">Create a Learning Story <i class="icon-pencil"></i></a></li>
+</comment>
+                        </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">#itec-composer.nav_technical_setting# <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+<comment>
+                          <li class="nav-header">Resources and Technical Settings</li>
+                          <li><a href="#">List Technical Settings</a></li>
+</comment>
+                          <li><a href="/composer/technicalsettings">#itec-composer.nav_technical_settings#</a></li>
+<comment>
+                          <li class="divider"></li>
+                          <li class="nav-header">Applications</li>
+</comment>
+                          <li><a href="/composer/applications">#itec-composer.nav_applications#</a></li>
+<comment>
+                          <li><a href="#">Register an Application</a></li>
+                          <li class="divider"></li>
+                          <li class="nav-header">Devices</li>
+</comment>
+                          <li><a href="/composer/devices">#itec-composer.nav_devices#</a></li>
+<comment>
+                          <li><a href="#">Register a Device</a></li>
+                          <li class="divider"></li>
+                          <li class="nav-header">Content</li>
+</comment>
+                          <li><a href="/composer/contents">#itec-composer.nav_content#</a></li>
+<comment>
+                          <li><a href="#">Register Content</a></li>
+</comment>
+                        </ul>
+                      </li>
+
+
+
+
+        </ul>
+        <comment>
+        <form class="navbar-search pull-left" action="">
+          <input class="search-query span2" type="text" placeholder="Search...">
+        </form>
+        </comment>
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <if @untrusted_user_id@ ne 0>#acs-subsite.Welcome_user#</if>
+              <else>#acs-subsite.Not_logged_in#</else>
+              <i class="icon-cog icon-white"></i>
+              <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <if @pvt_home_url@ not nil>
+                <li><a href="@pvt_home_url@" title="#acs-subsite.Change_pass_email_por#">@pvt_home_name@</a></li>
+              </if>
+              <if @login_url@ not nil>
+                <li><a href="@login_url@" title="#acs-subsite.Log_in_to_system#">#acs-subsite.Log_In#</a></li>
+              </if>
+              <if @num_of_locales@ gt 1>
+                <li><a href="@change_locale_url@">#acs-subsite.Change_locale_label#</a></li>
+              </if>
+              <li>#itec-composer.feedback_questionnaire#</li>
+              <if @logout_url@ not nil>
+                <li><a href="@logout_url@" title="#acs-subsite.Logout_from_system#">#acs-subsite.Logout#</a></li>
+              </if>
+              <if @user_menu_entries:rowcount@ not nil>
+                <multiple name="user_menu_entries">
+                  <li><a href="@user_menu_entries.href@">@user_menu_entries.text@</a></li>
+                </multiple>
+              </if>
+              <comment>
+              <li><a href="@whos_online_url@" title="#acs-subsite.view_all_online_members#">@num_users_online@ <if @num_users_online@ eq 1>#acs-subsite.Member#</if><else>#acs-subsite.Members#</else> #acs-subsite.Online#</a> |</li>
+              </comment>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="wrapper" class="container">
     <div id="header">
-        <div class="topbar">
-            <div class="fill">
-                <div class="container">
-                    <a class="brand"<if @system_url@ not nil> href="@system_url@"</if>>@system_name@</a>
-                        <ul class="nav secondary-nav">
-                        <li class="dropdown" data-dropdown="dropdown">
-                            <a class="dropdown-toggle" href="#">
-                              <if @untrusted_user_id@ ne 0>#acs-subsite.Welcome_user#</if>
-                              <else>#acs-subsite.Not_logged_in#</else>
-                            </a>
-                            <comment>
-                            <li><a href="@whos_online_url@" title="#acs-subsite.view_all_online_members#">@num_users_online@ <if @num_users_online@ eq 1>#acs-subsite.Member#</if><else>#acs-subsite.Members#</else> #acs-subsite.Online#</a> |</li>
-                            </comment>
-                            <ul class="dropdown-menu">
-                            <if @pvt_home_url@ not nil>
-                              <li><a href="@pvt_home_url@" title="#acs-subsite.Change_pass_email_por#">@pvt_home_name@</a></li>
-                            </if>
-                            <if @login_url@ not nil>
-                              <li><a href="@login_url@" title="#acs-subsite.Log_in_to_system#">#acs-subsite.Log_In#</a></li>
-                            </if>
-                            <if @logout_url@ not nil>
-                              <li><a href="@logout_url@" title="#acs-subsite.Logout_from_system#">#acs-subsite.Logout#</a></li>
-                            </if>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div id="breadcrumbs">
             <if @context_bar@ not nil>
                 @context_bar;noquote@
@@ -80,7 +165,16 @@
       <div class="block-marker">Begin main content</div>
     </comment>
     <div id="inner-wrapper">
-        
+<comment>
+      <if @in_personal_space@>
+        <div class="myspace-wrapper">
+          <div class="myspace">
+            @personal_space_indicator@
+          </div>
+        </div>
+      </if>
+</comment>
+
     <if @user_messages:rowcount@ gt 0>
       <div id="alert-message">
         <multiple name="user_messages">
@@ -117,11 +211,18 @@
   </comment>
 
   <if @num_of_locales@ gt 1 or @locale_admin_url@ not nil>
+  <footer>
   <div id="footer">
+
+    <hr>
+    <p>
+      The <a href="http://itec.eun.org">iTEC Project</a> is co-funded by the European Commission's FP7 programme.
+    </p>
     <comment>
         <div class="block-marker">Begin footer</div>
     </comment>
     <div id="footer-links">
+    <comment>
       <ul class="compact">
       <if @num_of_locales@ gt 1>
         <li><a href="@change_locale_url@">#acs-subsite.Change_locale_label#</a></li>
@@ -132,8 +233,10 @@
         </if>
       </else>
       </ul>
+    </comment>
     </div>
   </div> <!-- /footer -->
+  </footer>
   </if>
 
 </div> <!-- /wrapper -->

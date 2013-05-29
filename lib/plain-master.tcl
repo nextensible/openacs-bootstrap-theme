@@ -59,13 +59,14 @@ if { [template::multirow exists navigation] } {
 set user_id [ad_conn user_id]
 set untrusted_user_id [ad_conn untrusted_user_id]
 set sw_admin_p 0
+set user_name "Anonymous"
 
 if { $untrusted_user_id == 0 } {
     # The browser does NOT claim to represent a user that we know about
     set login_url [ad_get_login_url -return]
 } else {
     # The browser claims to represent a user that we know about
-    set user_name [person::name -person_id $untrusted_user_id]
+    set user_name [string_truncate -len 15 [person::name -person_id $untrusted_user_id]]
     set pvt_home_url [ad_pvt_home]
     set pvt_home_name [_ acs-subsite.Your_Account]
     set logout_url [ad_get_logout_url]
@@ -145,7 +146,8 @@ if {[info exists context]} {
     set context_tmp {}
 }
 
-ad_context_bar_multirow -- $context_tmp
+# Hide for the moment
+#ad_context_bar_multirow -- $context_tmp
 
 # Context bar separator
 set subsite_id [ad_conn subsite_id]
@@ -164,14 +166,80 @@ if {![info exists skip_link]} {
     set skip_link "#content-wrapper"
 }
 
+if {[info exists xouser_menu_entries]} {
+  template::util::list_to_multirow user_menu_entries $xouser_menu_entries
+}
+# <HACK>
+# This is ugly, but quickly effective
+set url [ad_conn url]
+if {
+  [string match */composer/compose* $url] ||
+  [string match */composer/learningstor* $url] ||
+  [string match */composer/scenario* $url] ||
+  [string match */composer/activit* $url]
+} {
+  set active compose
+} elseif {
+  [string match */composer/manage* $url] ||
+  [string match */composer/content* $url] ||
+  [string match */composer/application* $url] ||
+  [string match */composer/event* $url] ||
+  [string match */composer/technicalsetting* $url] ||
+  [string match */composer/device* $url]
+} {
+  set active manage
+} else {
+  set active ""
+}
 
-
+if {[string match */users/* $url]} {
+  set in_personal_space true
+} else {
+  set in_personal_space false
+}
+set personal_space_indicator [_ itec-composer.personal_space [list user_name $user_name]]
+#</HACK>
 #
 # TODO: include bootstrap more elegantly
 #
-::template::head::add_css -order 1 -href /resources/openacs-bootstrap-theme/forms.css
-::template::head::add_css -order 2 -href /resources/openacs-bootstrap-theme/lists.css
-::template::head::add_css -order 3 -href /resources/openacs-bootstrap-theme/styles/bootstrap-master.css
-::template::head::add_css -order 4 -href /resources/bootstrap/bootstrap.css
+
+set doc(type) "<!DOCTYPE html>"
+set body_attributes {data-spy="scroll" data-target=".subnav" data-offset="50"}
+
+#::template::head::add_css -order 1 -href /resources/openacs-bootstrap-theme/forms.css
+#::template::head::add_css -order 2 -href /resources/openacs-bootstrap-theme/lists.css
+::template::head::add_css -order 3 -href /resources/bootstrap/docs/assets/css/bootstrap.css
+::template::head::add_css -order 4 -href /resources/bootstrap/docs/assets/css/bootstrap-responsive.css
+
+::template::head::add_css -order 5 -href /resources/openacs-bootstrap-theme/styles/bootstrap-master.css
+::template::head::add_css -order 6 -href /resources/openacs-bootstrap-theme/styles/bootstrap-ds-fixes.css
+
 ::template::head::add_javascript -order 1 -src [jquery::src]
-::template::head::add_javascript -order 2 -src /resources/bootstrap/js/bootstrap-dropdown.js
+::template::head::add_javascript -order 2 -src /resources/bootstrap/docs/assets/js/bootstrap.js
+
+::template::head::add_javascript -order 3 -src /resources/openacs-bootstrap-theme/bootstrap-docu.js
+::template::head::add_link -rel "shortcut icon" -href "/resources/openacs-bootstrap-theme/images/favicon.ico"
+
+      ::template::head::add_javascript -order 4 -src "/resources/xowiki/ckeditor/ckeditor_source.js"
+      #::xo::Page requireJS "/resources/xowiki/ckeditor/ckeditor.js"
+      ::template::head::add_javascript -order 5 -src "/resources/xowiki/ckeditor/adapters/jquery.js"
+      ::template::head::add_javascript -order 6 -src "/resources/xowiki/jquery-ui-1.8.17.custom.min.js"
+      ::template::head::add_css -order 6 -href "/resources/xowiki/jquery-ui-1.8.17.custom.css"
+
+::template::head::add_javascript -order 7 -src /resources/itec-composer/select2/select2.js
+::template::head::add_css -order 7 -href "/resources/itec-composer/select2/select2.css"
+
+::template::head::add_script -type "text/javascript" -order 8 -script "\$(document).ready(function() { \$('.ff_functionality_requirement .ff_concrete_requirements select').select2({width: '90%'}); });"
+
+
+set activities_url /composer/activities
+set learningstories_url /composer/learningstories
+
+if {[string match "/composer/*" [ad_conn url]] && [::xotcl::Object isobject ::xo::cc]} {
+  # We are inside the composer and have a package_id and so on.
+
+  set package_id [::xo::cc package_id]
+  set activities_url [$package_id link_to activities]
+  set learningstories_url [$package_id link_to learningstories]
+
+}
