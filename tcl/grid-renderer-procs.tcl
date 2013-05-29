@@ -48,7 +48,7 @@ namespace eval ::xo::Table {
         set skin [expr {[my exists skin] ? [my set skin] : ""}]
         html::div -id [my set id]_wrapper -class $skin {
         html::form -name $name -id $name -method POST { 
-        html::div -id [my set id]_container {
+            html::div -id [my set id]_container {
                     html::ul -id [my set id] -class "thumbnails" {
                         # TODO do i need that?
                         my render-actions

@@ -235,11 +235,11 @@ set body_attributes {data-spy="scroll" data-target=".subnav" data-offset="50"}
 set activities_url /composer/activities
 set learningstories_url /composer/learningstories
 
+set widgetize 0
 if {[string match "/composer/*" [ad_conn url]] && [::xotcl::Object isobject ::xo::cc]} {
   # We are inside the composer and have a package_id and so on.
-
   set package_id [::xo::cc package_id]
   set activities_url [$package_id link_to activities]
   set learningstories_url [$package_id link_to learningstories]
-
+  set widgetize [expr {[$package_id query_parameter m] eq "view-widget" ? "true" : "false"}]
 }

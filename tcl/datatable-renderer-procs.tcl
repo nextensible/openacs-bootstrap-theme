@@ -116,7 +116,7 @@ namespace eval ::xo::Table {
             }
           }
           if {[my name] eq "__nls_language"} {
-            set lang [string range [$line set __nls_language] 0 1]
+            set lang [string range [$line set __nls_language] end-4 end-3]
             html::img -class "pull-right" -src "/resources/xowiki/flags/png/${lang}.png"
           } else {
             html::span -class "ffield [my name]" {

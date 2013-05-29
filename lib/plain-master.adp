@@ -6,6 +6,7 @@
 <if @body_attributes@ not nil><property name="body_attributes">@body_attributes;noquote@</property></if>
 <property name="skip_link">@skip_link;noquote@</property>
 
+<if @widgetize@ false>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
@@ -26,49 +27,17 @@
                       <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">#itec-composer.nav_activities_stories# <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-<comment>
-                          <li class="nav-header">Learning Activities</li>
-</comment>
                           <li><a href="@activities_url@">#itec-composer.nav_activities#</a></li>
-<comment>
-                          <li><a href="#">Create a Learning Activity <i class="icon-pencil"></i></a></li>
-                          <li class="divider"></li>
-                          <li class="nav-header">Learning Stories</li>
-</comment>
                           <li><a href="@learningstories_url@">#itec-composer.nav_learning_stories#</a></li>
-<comment>
-                          <li><a href="#">Create a Learning Story <i class="icon-pencil"></i></a></li>
-</comment>
                         </ul>
                       </li>
                       <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">#itec-composer.nav_technical_setting# <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-<comment>
-                          <li class="nav-header">Resources and Technical Settings</li>
-                          <li><a href="#">List Technical Settings</a></li>
-</comment>
                           <li><a href="/composer/technicalsettings">#itec-composer.nav_technical_settings#</a></li>
-<comment>
-                          <li class="divider"></li>
-                          <li class="nav-header">Applications</li>
-</comment>
                           <li><a href="/composer/applications">#itec-composer.nav_applications#</a></li>
-<comment>
-                          <li><a href="#">Register an Application</a></li>
-                          <li class="divider"></li>
-                          <li class="nav-header">Devices</li>
-</comment>
                           <li><a href="/composer/devices">#itec-composer.nav_devices#</a></li>
-<comment>
-                          <li><a href="#">Register a Device</a></li>
-                          <li class="divider"></li>
-                          <li class="nav-header">Content</li>
-</comment>
                           <li><a href="/composer/contents">#itec-composer.nav_content#</a></li>
-<comment>
-                          <li><a href="#">Register Content</a></li>
-</comment>
                         </ul>
                       </li>
 
@@ -118,6 +87,7 @@
     </div>
   </div>
 </div>
+</if>
 
 <div id="wrapper" class="container">
     <div id="header">
@@ -201,14 +171,7 @@
     </div>
   </div> <!-- /content-wrapper -->
 
-  <comment>
-    TODO: remove this and add a more systematic / package independent way 
-    TODO  of getting this content here
-  </comment>
   <if @curriculum_bar_p@ true><include src="/packages/curriculum/lib/bar" /></if>
-
-  <comment> empty UL gives a validation error for the W3C validator 
-  </comment>
 
   <if @num_of_locales@ gt 1 or @locale_admin_url@ not nil>
   <footer>
@@ -216,24 +179,9 @@
 
     <hr>
     <p>
-      The <a href="http://itec.eun.org">iTEC Project</a> is co-funded by the European Commission's FP7 programme.
+      The <a href="http://itec.eun.org" target="_blank">iTEC Project</a> is co-funded by the European Commission's FP7 programme.
     </p>
-    <comment>
-        <div class="block-marker">Begin footer</div>
-    </comment>
     <div id="footer-links">
-    <comment>
-      <ul class="compact">
-      <if @num_of_locales@ gt 1>
-        <li><a href="@change_locale_url@">#acs-subsite.Change_locale_label#</a></li>
-      </if>
-      <else>
-        <if @locale_admin_url@ not nil>
-          <li><a href="@locale_admin_url@">Install locales</a></li>
-        </if>
-      </else>
-      </ul>
-    </comment>
     </div>
   </div> <!-- /footer -->
   </footer>
