@@ -229,7 +229,12 @@ set body_attributes {data-spy="scroll" data-target=".subnav" data-offset="50"}
 ::template::head::add_javascript -order 7 -src /resources/itec-composer/select2/select2.js
 ::template::head::add_css -order 7 -href "/resources/itec-composer/select2/select2.css"
 
-::template::head::add_script -type "text/javascript" -order 8 -script "\$(document).ready(function() { \$('.ff_functionality_requirement .ff_concrete_requirements select').select2({width: '90%'}); });"
+::template::head::add_script -type "text/javascript" -order 8 -script "
+  \$(document).ready(function() {
+    \$('.ff_functionality_requirement .ff_concrete_requirements select').select2({width: '90%'});
+    \$('.ff_activity select').select2({width: '90%'});
+  });
+"
 
 
 set activities_url /composer/activities
