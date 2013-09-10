@@ -91,7 +91,7 @@ namespace eval ::xo::Table {
                 html::a [my get_local_attributes href title {CSSclass class} target onclick] {
                     return "[next]"
                 }
-          } elseif {$__name in {"_edit" "_delete" "_view"}} {
+          } elseif {$__name in {"_edit" "_delete" "_view" "_personalize" "_widgetize"}} {
             # TODO: In form-usages, all Fields are AnchorFields, therefore, we
             # have to render them regardless of absent hrefs...
             # However, for the hardcoded buttons, we can safely not render them
