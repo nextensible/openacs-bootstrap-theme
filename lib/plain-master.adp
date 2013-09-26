@@ -37,7 +37,7 @@
                           <li><a href="/composer/technicalsettings">#itec-composer.nav_technical_settings#</a></li>
                           <li><a href="/composer/applications">#itec-composer.nav_applications#</a></li>
                           <li><a href="/composer/devices">#itec-composer.nav_devices#</a></li>
-                          <li><a href="/composer/contents">#itec-composer.nav_content#</a></li>
+                          <li><a href="http://wookie.eun.org/Store/" target="_blank">#itec-composer.nav_content#</a></li>
                         </ul>
                       </li>
 
